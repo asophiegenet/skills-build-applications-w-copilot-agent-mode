@@ -30,12 +30,18 @@ router.register(r'activities', views.ActivityViewSet, basename='activity')
 router.register(r'leaderboard', views.LeaderboardViewSet, basename='leaderboard')
 
 def api_root(request):
+    import os
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        base_url = f"https://{codespace_name}-8000.app.github.dev/api/"
+    else:
+        base_url = "/api/"
     return JsonResponse({
-        'users': '/users/',
-        'teams': '/teams/',
-        'workouts': '/workouts/',
-        'activities': '/activities/',
-        'leaderboard': '/leaderboard/',
+        'users': base_url + 'users/',
+        'teams': base_url + 'teams/',
+        'workouts': base_url + 'workouts/',
+        'activities': base_url + 'activities/',
+        'leaderboard': base_url + 'leaderboard/',
     })
 
 urlpatterns = [

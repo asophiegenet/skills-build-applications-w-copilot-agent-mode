@@ -27,7 +27,14 @@ SECRET_KEY = 'django-insecure-31&0u(d2$2j+i%s8)x!0lf_jz_c3p%z77y8^c@&3)wznpdk$$p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
+import os
+# Autorise localhost et le sous-domaine Codespaces
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if CODESPACE_NAME:
+    ALLOWED_HOSTS.append(f'{CODESPACE_NAME}-8000.app.github.dev')
+    ALLOWED_HOSTS.append(CODESPACE_NAME)
 
 
 # Application definition
@@ -83,7 +90,7 @@ WSGI_APPLICATION = 'octofit_tracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'octofit_db',
+        'NAME': 'octofit_db_dev',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': 'localhost',
